@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc0.Steamworks2017.Robot;
+import org.usfirst.frc0.Steamworks2017.subsystems.DriveTrain;
+import com.kauailabs.navx.frc.*;
 
 /**
  *
@@ -75,8 +77,20 @@ public class ManualDrive extends Command {
 //		}
 		
 		//slow
+		// if(Robot.oi.driveStick.getMagnitude() > .05 && !slow && !reverse){
+			//Robot.driveTrain.driving(Robot.oi.driveStick.getX(),-Robot.oi.driveStick.getY(), Robot.oi.driveStick.getRawAxis(2));
+
+			//field oriented driving begins
+			double joystickVert = Robot.oi.driveStick.getY() * -1;
+			double joystickStrafe = Robot.oi.driveStick.getX();
+			
 		if(Robot.oi.driveStick.getMagnitude() > .05 && !slow && !reverse){
-			Robot.driveTrain.driving(Robot.oi.driveStick.getX(),-Robot.oi.driveStick.getY(), Robot.oi.driveStick.getRawAxis(2));
+			double strafe = Robot.driveTrain.GyroManualStrafe(joystickVert, joystickStrafe);
+			double vertical = Robot.driveTrain.GyroManualVert(joystickVert, joystickStrafe);
+			Robot.driveTrain.driving(strafe, vertical, Robot.oi.driveStick.getRawAxis(2));
+			//field oriented driving ends
+
+			
 		} else if((Robot.oi.driveStick.getMagnitude() > .05 && slow && !reverse)){
 			Robot.driveTrain.slowdrive(Robot.oi.driveStick.getX(),-Robot.oi.driveStick.getY(), Robot.oi.driveStick.getRawAxis(2));
 		} else if((Robot.oi.driveStick.getMagnitude() > .05 && !slow && reverse)){

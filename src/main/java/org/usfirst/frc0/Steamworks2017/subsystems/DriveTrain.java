@@ -17,12 +17,14 @@ import org.usfirst.frc0.Steamworks2017.RobotMap;
 import org.usfirst.frc0.Steamworks2017.commands.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import com.kauailabs.navx.frc.*;
 
-
+import org.usfirst.frc0.Steamworks2017.Robot;
 
 /**
  *
@@ -177,6 +179,36 @@ public class DriveTrain extends Subsystem {
 		MecanumDrive.driveCartesian(x / 3, y / 3.5, rotation / 3.5);
 	}
 	
+
+
+	/* public void GyroManualDrive( double joystickVert, double joystickStrafe){
+				joystickVert = Robot.oi.driveStick.getY() * -1;
+				joystickStrafe = Robot.oi.driveStick.getX();
+				double pi = 3.141592653;
+				float gyro = Robot.ahrs.getYaw();
+				double gyroRad = gyro * pi/180;
+				double vertField = joystickVert * Math.cos(gyroRad) + joystickStrafe * Math.sin(gyroRad);
+				double strafeField = -joystickVert * Math.sin(gyroRad) + joystickStrafe * Math.cos(gyroRad);
+			
+	} */
+
+	public double GyroManualStrafe( double joystickVert, double joystickStrafe){
+		joystickVert = Robot.oi.driveStick.getY() * -1;
+		joystickStrafe = Robot.oi.driveStick.getX();
+		double pi = 3.141592653;
+		float gyro = Robot.ahrs.getYaw();
+		double gyroRad = gyro * pi/180;
+		return -joystickVert * Math.sin(gyroRad) + joystickStrafe * Math.cos(gyroRad);
+}
+
+	public double GyroManualVert( double joystickVert, double joystickStrafe){
+		joystickVert = Robot.oi.driveStick.getY() * -1;
+		joystickStrafe = Robot.oi.driveStick.getX();
+		double pi = 3.141592653;
+		float gyro = Robot.ahrs.getYaw();
+		double gyroRad = gyro * pi/180;
+		return joystickVert * Math.cos(gyroRad) + joystickStrafe * Math.sin(gyroRad);
+	}
 	// public int getBLPosition(){
 	// 	return cANTalonBL.getEncPosition();
 	// }
